@@ -1,0 +1,47 @@
+####
+## Basic Makefile for SC-MIPS
+##
+######
+
+TARGET_HEX = $(PROGRAM).hex
+TARGET_ELF = $(PROGRAM).elf
+TARGET_BIN = $(PROGRAM).bin
+HEXWRITE = ./hexwrite
+TOOLS = $(HEXWRITE)
+MIPS_LD_SCRIPT = sc-mips.ld
+
+MIPS_OBJCOPY = mipsel-linux-gnu-objcopy
+MIPS_CC = mipsel-linux-gnu-gcc
+MIPS_AS = mipsel-linux-gnu-as
+MIPS_LD = mipsel-linux-gnu-ld
+CRT_OBJ = start.o
+
+all: $(TARGET_HEX)
+
+$(HEXWRITE): hexwrite.c
+	$(CC) -o $@ $< -O3 -std=c99
+
+$(TARGET_HEX): $(TARGET_ELF)
+	$(MIPS_OBJCOPY) -j .text $< $(TARGET_BIN) -O binary
+	$(HEXWRITE) $(TARGET_BIN) $(TARGET_HEX)
+
+$(TARGET_ELF): $(MIPS_OBJ) $(CRT_OBJ)
+	$(MIPS_LD) -T $(MIPS_LD_SCRIPT) -o $@ $(CRT_OBJ) $(MIPS_OBJ) -EB
+
+%.o: %.s
+	$(MIPS_AS) -o $@ $< -EB -mabi=eabi
+
+%.o: %.c
+	$(MIPS_CC) -c -o $@ $< -O3 -EB -mabi=eabi -mno-abicalls -std=gnu99
+
+tools: $(TOOLS)
+
+clean:
+	rm -f $(MIPS_OBJ) $(TARGET_ELF) $(TARGET_HEX) $(TARGET_BIN)
+
+clean-tools:
+	rm -f $(TOOLS)
+
+.PHONY: all clean tools clean-tools
+
+
