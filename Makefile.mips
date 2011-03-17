@@ -31,7 +31,7 @@ $(TARGET_ELF): $(MIPS_OBJ) $(CRT_OBJ)
 %.o: %.s
 	$(MIPS_AS) -o $@ $< -EB -mabi=eabi
 
-%.o: %.c
+%.o: %.c sc-mips.h
 	$(MIPS_CC) -c -o $@ $< -O3 -EB -mabi=eabi -mno-abicalls -std=gnu99
 
 tools: $(TOOLS)

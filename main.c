@@ -1,13 +1,8 @@
-int foo = 100;
-int bar = 1000;
-
-const char *baz = "HAI GUISE! :D";
-static int lol;
-int cnt;
+#include "sc-mips.h"
 
 int main(void)
 {
-   cnt++;
-   lol++;
-   return lol;
+   volatile const short *switches = DE2_SW;
+   volatile short* led = DE2_LEDR;
+   *led = (*switches << 2) + 1;
 }
