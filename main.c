@@ -1,14 +1,18 @@
 #include "sc-mips.h"
+#include "sc-stdlib.h"
 
 static int test(void)
 {
    int test[128];
+   int test2[128];
    for (int i = 0; i < 128; i++)
       test[i] = i;
 
+   memcpy(test2, test, sizeof(test));
+
    int sum = 0;
    for (int i = 0; i < 128; i++)
-      sum += test[i];
+      sum += test2[i];
 
    return sum;
 }
