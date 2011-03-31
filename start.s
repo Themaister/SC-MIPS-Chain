@@ -3,6 +3,8 @@
 # Entry point and setup for our SC-MIPS
 ##
 
+.equ RAM_WORDS, 2048
+
 .text
 .global sc_mips_start
 .extern main
@@ -12,7 +14,7 @@ sc_mips_start:
 redo:
    li $a0, 0 # argc = 0, it will never be used anyways on this stuff. :D
    li $a1, 0 # argv = 0
-   li $sp, 0x007007fc # Set up stack.
+   li $sp, (0x00700000 + 4 * (RAM_WORDS - 1)) # Set up stack.
 
    jal dump_grom_to_ram
 
@@ -24,7 +26,7 @@ redo:
 dump_grom_to_ram:
    li $t0, 0x00300000 # Source
    li $t1, 0x00700000 # Dest
-   li $t2, 512 # Words to copy
+   li $t2, RAM_WORDS # Words to copy
 _loop:
    lw $t3, 0($t0)
    sw $t3, 0($t1)
