@@ -3,6 +3,8 @@ SECTIONS {
    . = 0x00400000;
    .text : { * (.text); }
 
-   . = 0x00300000;
-   .data : { * (.data); * (.rodata*); *(.sbss); * (.scommon); }
+   . = 0x00700000;
+   .data : { * (.data); * (.rodata*); * (.sbss); * (.scommon); }
+
+   .bss : { * (.bss); }
 }

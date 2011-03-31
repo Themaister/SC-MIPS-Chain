@@ -4,8 +4,10 @@
 ######
 
 TARGET_HEX = $(PROGRAM).hex
+TARGET_GLOBAL_HEX = $(PROGRAM).global.hex
 TARGET_ELF = $(PROGRAM).elf
 TARGET_BIN = $(PROGRAM).bin
+TARGET_GLOBAL_BIN = $(PROGRAM).global.bin
 HEXWRITE = ./hexwrite
 TOOLS = $(HEXWRITE)
 MIPS_LD_SCRIPT = sc-mips.ld
@@ -23,7 +25,9 @@ $(HEXWRITE): hexwrite.c
 
 $(TARGET_HEX): $(TARGET_ELF)
 	$(MIPS_OBJCOPY) -j .text $< $(TARGET_BIN) -O binary
+	$(MIPS_OBJCOPY) -j .data $< $(TARGET_GLOBAL_BIN) -O binary
 	$(HEXWRITE) $(TARGET_BIN) $(TARGET_HEX)
+	$(HEXWRITE) $(TARGET_GLOBAL_BIN) $(TARGET_GLOBAL_HEX)
 
 $(TARGET_ELF): $(MIPS_OBJ) $(CRT_OBJ)
 	$(MIPS_LD) -T $(MIPS_LD_SCRIPT) -o $@ $(CRT_OBJ) $(MIPS_OBJ) -EB
@@ -37,7 +41,7 @@ $(TARGET_ELF): $(MIPS_OBJ) $(CRT_OBJ)
 tools: $(TOOLS)
 
 clean:
-	rm -f $(MIPS_OBJ) $(TARGET_ELF) $(TARGET_HEX) $(TARGET_BIN)
+	rm -f $(MIPS_OBJ) $(TARGET_ELF) $(TARGET_HEX) $(TARGET_GLOBAL_HEX) $(TARGET_BIN) $(TARGET_GLOBAL_BIN)
 
 clean-tools:
 	rm -f $(TOOLS)
