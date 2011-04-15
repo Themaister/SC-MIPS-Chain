@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define INS_MEM_SIZE (1024 * 2) // Size of ROM memory on our puny MIPS.
+#define INS_MEM_SIZE (1024 * 4) // Size of ROM memory on our puny MIPS.
 #define START_ADDR (0x0 / 4) // Divide by 4 here to remember that our instruction memory is word based.
 
 static uint8_t checksum(const uint8_t *in_data, int addr)
