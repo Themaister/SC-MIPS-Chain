@@ -1,6 +1,6 @@
 #include "sc-stdlib.h"
 
-void* memcpy(void * restrict out, const void * restrict in, size_t size)
+void* sc_memcpy(void * restrict out, const void * restrict in, size_t size)
 {
    u8 * restrict _out = out;
    const u8 * restrict _in = in;
@@ -11,7 +11,7 @@ void* memcpy(void * restrict out, const void * restrict in, size_t size)
    return out;
 }
 
-void* memset(void *data, int byte, size_t size)
+void* sc_memset(void *data, int byte, size_t size)
 {
    u8 * restrict _data = data;
    for (size_t i = 0; i < size; i++)

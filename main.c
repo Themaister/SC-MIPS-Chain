@@ -7,7 +7,11 @@ int g_test = 0x10000;
 
 static int test(void)
 {
-   return 128;
+   int sum = 0;
+   for (int i = 0; i < 1024; i++)
+      sum += i;
+
+   return sum;
 }
 
 int main(void)
